@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+}
+
+tr.mat-header-row {
+  background-color: rgb(250, 171, 171);
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+  font-style: italic;
+  background-color: rgb(130, 209, 130);
+}
