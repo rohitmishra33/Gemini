@@ -1,0 +1,21 @@
+<h3>Select Players:</h3>
+
+<div class="row">
+	<div class="col-lg-auto">
+		<div class="btn-group-toggle" data-toggle="buttons">
+			<button class="ml-2 mt-2 btn btn-lg" name="{{player}}"
+				[ngClass]="isPlayerSelected(player) ? 'btn-primary' : 'btn-light'" (click)="togglePlayer(player)"
+				*ngFor="let player of playerNames">{{player}}</button>
+		</div>
+	</div>
+	<div class="col-lg-3">
+		<div class="input-group input-group-lg mb-3 ml-2 mt-2">
+			<input type="text" class="form-control" placeholder="Player" [(ngModel)]="newPlayer">
+			<div class="input-group-append">
+				<button class="btn btn-outline-info" type="button" (click)="addNewPlayer()">
+					Add
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

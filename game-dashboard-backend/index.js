@@ -30,6 +30,14 @@ io.on('connection', function (socket) {
         io.emit('scoreBroadcast', gameObject);
     });
 
+    socket.on('addPlayers', function (playerNames) {
+        console.log('\nEvent: addPlayers');
+        console.log('Adding Players: ', playerNames.toString())
+        gameObject.players = playerNames;
+        console.log('Broadcasting Scores');
+        io.emit('scoreBroadcast', gameObject);
+    });
+
     socket.on('addScores', function (gameScore) {
         console.log('\nEvent: addScores');
         console.log('Adding Scores: ' + gameScore)
