@@ -10,18 +10,15 @@ import { ScoreService } from 'app/score-service.service';
 })
 export class StartGameComponent implements OnInit {
 
-	@Output() gameState = new EventEmitter<boolean>();
-	
 	newPlayer: string;
 	selectedPlayers = [];
 	playerNames = [];
 
 	constructor(private scoreService: ScoreService) { 
-		this.scoreService.getScores().subscribe(data => {
-			let unknownPlayers = data.players.filter(x => this.playerNames.indexOf(x) < 0);
-			this.playerNames = this.playerNames.concat(unknownPlayers);
-			
-			this.selectedPlayers = data.players;
+		this.scoreService.getPlayers().subscribe(data => {
+			this.selectedPlayers = data;
+			let extras = data.filter(x => this.playerNames.indexOf(x) == -1);
+			this.playerNames = this.playerNames.concat(extras);
 		});
 	}
 
@@ -57,6 +54,5 @@ export class StartGameComponent implements OnInit {
 
 	updateTable() {
 		this.scoreService.addPlayers(this.selectedPlayers);
-		this.gameState.emit(true);
 	}
 }

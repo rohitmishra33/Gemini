@@ -9,9 +9,9 @@ export class ScoreService {
 
 	constructor(private socket: Socket) { }
 
-	getScores(): Observable<Game> {
-		return new Observable<Game>(observer => {
-			this.socket.on('scoreBroadcast', (data: Game) => observer.next(data));
+	getScores(): Observable<Game[]> {
+		return new Observable<Game[]>(observer => {
+			this.socket.on('scoreBroadcast', (data: Game[]) => observer.next(data));
 		});
 	}
 
@@ -19,8 +19,18 @@ export class ScoreService {
 		this.socket.emit('addPlayers', playerNames);
 	}
 
-	addScores(gameScore) {
+	getPlayers(): Observable<string[]> {
+		return new Observable<string[]>(o => {
+			this.socket.on('getPlayers', (data: string[]) => o.next(data));
+		});
+	}
+
+	addScores(gameScore: Game) {
 		this.socket.emit('addScores', gameScore);
+	}
+
+	deleteGame(id: number) {
+		this.socket.emit('deleteGame', id);
 	}
 
 	init() {
@@ -30,6 +40,11 @@ export class ScoreService {
 }
 
 export interface Game {
-	players: Array<string>;
-	scores: Array<Array<number>>;
+	id: number;
+	game: Score[];
+}
+
+interface Score {
+	name: string;
+	score: number;
 }
