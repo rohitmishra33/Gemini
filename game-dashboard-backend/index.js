@@ -2,10 +2,8 @@ let app = require('express')();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
-let gameObject = {
-    players: [],
-    scores: []
-};
+let players = [];
+let games = [];
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -14,35 +12,51 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket) {
     var ip = socket.handshake.address;
     console.log(`\nNew Socket connection from ${ip}`);
-    console.log('Broadcasting Scores');
-    io.emit('scoreBroadcast', gameObject);
+    broadcastScore();
+    broadcastPlayers();
 
     socket.on('disconnect', function () {
         console.log('\nEvent: disconnect');
         console.log(`Connection to ${ip} lost`);
     });
 
-    socket.on('addPlayer', function (playerName) {
-        console.log('\nEvent: addPlayer');
-        console.log('Adding Player: ' + playerName)
-        gameObject.players.push(playerName);
-        console.log('Broadcasting Scores');
-        io.emit('scoreBroadcast', gameObject);
+    socket.on('addPlayers', function (playerNames) {
+        console.log('\nEvent: addPlayers');
+        console.log('Adding Players: ', playerNames.toString())
+        players = playerNames;
+        broadcastPlayers();
+        broadcastScore();
     });
 
     socket.on('addScores', function (gameScore) {
         console.log('\nEvent: addScores');
         console.log('Adding Scores: ' + gameScore)
-        gameObject.scores.push(gameScore);
-        console.log('Broadcasting Scores');
-        io.emit('scoreBroadcast', gameObject);
+        games.push(gameScore);
+        broadcastScore();
+        broadcastPlayers();
+    });
+
+    socket.on('deleteGame', function(id) {
+        console.log('Deleting Game with id: ', id);
+        games = games.filter(g => g.id != id);
+        broadcastScore();
     });
 
     socket.on('getScores', function () {
         console.log('\nEvent: getScores');
-        console.log('Broadcasting Scores');
-        io.emit('scoreBroadcast', gameObject);
+        broadcastScore();
     });
+
+    function broadcastScore() {
+        console.log('Broadcasting Scores');
+        io.emit('scoreBroadcast', games);
+    }
+
+    function broadcastPlayers() {
+        console.log('Broadcasting Players');
+        io.emit('getPlayers', players);
+    }
+
 });
 
 http.listen(3000, function () {

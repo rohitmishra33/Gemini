@@ -3,33 +3,48 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
-export class ScoreServiceService {
+export class ScoreService {
 
-  constructor(private socket: Socket) { }
+	constructor(private socket: Socket) { }
 
-  getScores(): Observable<Game> {
-    return new Observable<Game>(observer => {
-      this.socket.on('scoreBroadcast', (data: Game) => observer.next(data));
-    });
-  }
+	getScores(): Observable<Game[]> {
+		return new Observable<Game[]>(observer => {
+			this.socket.on('scoreBroadcast', (data: Game[]) => observer.next(data));
+		});
+	}
 
-  addPlayer(playerName: string) {
-    this.socket.emit('addPlayer', playerName);
-  }
+	addPlayers(playerNames: string[]) {
+		this.socket.emit('addPlayers', playerNames);
+	}
 
-  addScores(gameScore) {
-    this.socket.emit('addScores', gameScore);
-  }
+	getPlayers(): Observable<string[]> {
+		return new Observable<string[]>(o => {
+			this.socket.on('getPlayers', (data: string[]) => o.next(data));
+		});
+	}
 
-  init() {
-    this.socket.emit('getScores');
-  }
+	addScores(gameScore: Game) {
+		this.socket.emit('addScores', gameScore);
+	}
+
+	deleteGame(id: number) {
+		this.socket.emit('deleteGame', id);
+	}
+
+	init() {
+		this.socket.emit('getScores');
+	}
 
 }
 
 export interface Game {
-  players: Array<string>;
-  scores: Array<Array<number>>;
+	id: number;
+	game: Score[];
+}
+
+interface Score {
+	name: string;
+	score: number;
 }
