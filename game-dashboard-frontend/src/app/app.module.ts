@@ -13,7 +13,7 @@ import { StartGameComponent } from './start-game/start-game.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AddScoreComponent } from './add-score/add-score.component';
 
-const config: SocketIoConfig = { url: 'http://192.168.0.49:3000', options: {} };
+const config: SocketIoConfig = { url: window.location.hostname + ':3000', options: {} };
 
 enableProdMode();
 
