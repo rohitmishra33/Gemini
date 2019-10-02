@@ -8,7 +8,7 @@ List of currently supported games:
 
 ## Build and Installation
 
-Use the package manager [npm](https://www.npmjs.com/) to install the required backend dependencies. The frontend is generated using [Angular CLI](https://github.com/angular/angular-cli) version 7.3.7. So, it can be built using the **ng build** command or the **npm install** command. Goto the project root and execute the following sequence of commands.
+Use the package manager [npm](https://www.npmjs.com/) to install the required backend dependencies. The frontend is generated using [Angular CLI](https://github.com/angular/angular-cli) version 7.3.7. So, it can be built using the **ng build** command or the **npm install** command. Go to the project root and execute the following sequence of commands.
 
 ```bash
 cd game-dashboard-backend
