@@ -21,7 +21,10 @@ ng build
 ```
 start.bat
 ```
-- **Linux** - 
+- **Linux** - Run the **start.sh** script present in the root directory of the project from a terminal window.
+```
+./start.sh
+```
 - **Mac OS X/macOS** - 
 
 ## Contributing
