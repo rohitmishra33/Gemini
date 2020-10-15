@@ -26,7 +26,9 @@ start.bat
 ./start.sh
 ```
 - **Mac OS X/macOS** - 
-
+```
+To be added (Should be fairly similar to the one for linux)
+```
 ## Contributing
 Pull requests are welcome. Please create a separate branch for any changes that you wish to make and once done, raise a pull and merge request against the master branch.
 
